@@ -50,8 +50,9 @@ public class IG {
 				lsClient.subscribe(stocks);
 				lsClient.connect();
 			}
+		} else {
+			throw new RuntimeException("Not logged in");
 		}
-		throw new RuntimeException("Not logged in");
 	}
 
 	public boolean login() {
