@@ -56,4 +56,14 @@ public class IGLogin {
 	public boolean loggedIn() {
 		return cst != null && xSecToken != null;
 	}
+
+	@JsonIgnore
+	public String getCst() {
+		return cst;
+	}
+
+	@JsonIgnore
+	public String getXSecToken() {
+		return xSecToken;
+	}
 }

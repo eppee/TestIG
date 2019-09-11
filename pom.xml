@@ -11,5 +11,10 @@
 			<artifactId>RestClient</artifactId>
 			<version>1.0</version>
 		</dependency>
+	    <dependency>
+	      <groupId>com.lightstreamer</groupId>
+	      <artifactId>ls-javase-client</artifactId>
+	      <version>3.1.2</version>
+	    </dependency>
 	</dependencies>
 </project>
