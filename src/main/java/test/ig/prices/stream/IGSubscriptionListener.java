@@ -5,6 +5,7 @@ import com.lightstreamer.client.Subscription;
 import com.lightstreamer.client.SubscriptionListener;
 
 import test.ig.IGUpdatable;
+import test.ig.prices.Price;
 
 public class IGSubscriptionListener implements SubscriptionListener {
 
@@ -12,6 +13,21 @@ public class IGSubscriptionListener implements SubscriptionListener {
 
 	public IGSubscriptionListener(IGUpdatable igUpdatable) {
 		this.igUpdatable = igUpdatable;
+	}
+
+	public void onItemUpdate(ItemUpdate itemUpdate) {
+		String bid = itemUpdate.getFieldsByPosition().get(1);
+		String ask = itemUpdate.getFieldsByPosition().get(2);
+		Price price;
+		try {
+			price = new Price();
+			price.setAsk(Double.parseDouble(ask));
+			price.setBid(Double.parseDouble(bid));
+			igUpdatable.newBidAlert(price);
+		} catch (NumberFormatException e) {
+			System.out.println("Could not transform " + bid + " and " + ask);
+			price = null;
+		}
 	}
 
 	public void onClearSnapshot(String itemName, int itemPos) {
@@ -32,21 +48,6 @@ public class IGSubscriptionListener implements SubscriptionListener {
 
 	public void onItemLostUpdates(String itemName, int itemPos, int lostUpdates) {
 		System.out.println("onItemLostUpdates");
-	}
-
-	public void onItemUpdate(ItemUpdate itemUpdate) {
-		String bid = itemUpdate.getFieldsByPosition().get(1);
-		String ask = itemUpdate.getFieldsByPosition().get(2);
-		double doubleBid;
-		try {
-			doubleBid = (Double.parseDouble(bid) + ((Double.parseDouble(ask) - Double.parseDouble(bid)) / 2.0));
-		} catch (NumberFormatException e) {
-			System.out.println("Could not transform " + bid + " and " + ask);
-			doubleBid = 0;
-		}
-		if (doubleBid > 0) {
-			igUpdatable.newBidAlert(doubleBid);
-		}
 	}
 
 	public void onListenEnd(Subscription subscription) {

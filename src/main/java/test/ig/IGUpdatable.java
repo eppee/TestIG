@@ -1,5 +1,7 @@
 package test.ig;
 
+import test.ig.prices.Price;
+
 public interface IGUpdatable {
-	void newBidAlert(double bid);
+	void newBidAlert(Price price);
 }

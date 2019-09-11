@@ -2,6 +2,7 @@ package test.ig;
 
 import test.ig.prices.HistoricPrice;
 import test.ig.prices.HistoricPrices;
+import test.ig.prices.Price;
 
 public class IGPlayArea {
 
@@ -14,9 +15,8 @@ public class IGPlayArea {
 			System.out.println(price.getSnapshotTime() + " | " + price.getClosePrice().getBid());
 		}
 		ig.startPriceStreaming(new IGUpdatable() {
-
-			public void newBidAlert(double bid) {
-				System.out.println("Bid alert:" + bid);
+			public void newBidAlert(Price price) {
+				System.out.println("Bid alert:" + price.getBid());
 			}
 		});
 	}
